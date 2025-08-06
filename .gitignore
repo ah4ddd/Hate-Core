@@ -1,0 +1,32 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+hate_venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Pygame or asset garbage
+*.log
+*.tmp
+*.bak
+
+# Save files / runtime data
+data/save.json
+
+# VS Code / IDE stuff
+.vscode/
+.idea/
+
+# Optional: ignore asset placeholders (if you generate them)
+assets/images/*.png
+assets/sounds/*.wav
+assets/sounds/*.mp3
