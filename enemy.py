@@ -22,6 +22,7 @@ class Enemy:
                 break
         self.rect = self.image.get_rect(topleft=(x, y))
         self.health = config.ENEMY_HEALTH
+        self.max_health = config.ENEMY_HEALTH
         self.speed = config.ENEMY_SPEED
         # For future: projectiles
         self.projectiles = []
@@ -34,9 +35,20 @@ class Enemy:
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
-        # For future: draw projectiles
-        for proj in self.projectiles:
-            pygame.draw.circle(surface, (255, 100, 0), proj, 12)
+        # Draw health bar above dragon
+        bar_width = 60
+        bar_height = 8
+        bar_x = self.rect.centerx - bar_width // 2
+        bar_y = self.rect.top - 20
+        
+        # Background (dark red)
+        pygame.draw.rect(surface, (100, 0, 0), (bar_x, bar_y, bar_width, bar_height))
+        # Health (bright red)
+        health_width = int((self.health / self.max_health) * bar_width)
+        if health_width > 0:
+            pygame.draw.rect(surface, (255, 0, 0), (bar_x, bar_y, health_width, bar_height))
+        # Border
+        pygame.draw.rect(surface, (255, 255, 255), (bar_x, bar_y, bar_width, bar_height), 1)
 
     def is_dead(self):
         return self.health <= 0

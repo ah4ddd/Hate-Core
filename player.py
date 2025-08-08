@@ -11,6 +11,7 @@ class Player:
             if fname.endswith('.png') and not fname.endswith('.Zone.Identifier'):
                 sprite_path = os.path.join(walk_dir, fname)
                 sprite = pygame.image.load(sprite_path).convert_alpha()
+                # Ensure exact same size for all sprites
                 sprite = pygame.transform.smoothscale(sprite, (128, 128))
                 self.walk_sprites.append(sprite)
         # Load attack animation
@@ -20,7 +21,7 @@ class Player:
             if fname.endswith('.png') and not fname.endswith('.Zone.Identifier'):
                 sprite_path = os.path.join(attack_dir, fname)
                 sprite = pygame.image.load(sprite_path).convert_alpha()
-                # Keep attack sprites the same size as walk sprites
+                # Ensure exact same size for all sprites
                 sprite = pygame.transform.smoothscale(sprite, (128, 128))
                 self.attack_sprites.append(sprite)
         # Load death animation
@@ -30,7 +31,7 @@ class Player:
             if fname.endswith('.png') and not fname.endswith('.Zone.Identifier'):
                 sprite_path = os.path.join(death_dir, fname)
                 sprite = pygame.image.load(sprite_path).convert_alpha()
-                # Keep death sprites the same size as walk sprites
+                # Ensure exact same size for all sprites
                 sprite = pygame.transform.smoothscale(sprite, (128, 128))
                 self.death_sprites.append(sprite)
         # Fallbacks
@@ -54,13 +55,14 @@ class Player:
         self.attack_frame = 0
         self.death_frame = 0
         self.attack_range = 250  # Even larger attack range
-        self.attack_speed = 0.3  # Slightly slower for better visibility
+        self.attack_speed = 0.8  # Much faster attack animation
         self.attack_effect_timer = 0
         self.enemies_killed = 0  # Track total enemies killed
 
     def move(self, move_keys):
-        if self.state in ['attack', 'death']:
-            return  # No movement during attack or death
+        # Allow movement during attack, but not during death
+        if self.state == 'death':
+            return  # No movement during death only
         moved = False
         if move_keys[0]:
             self.rect.y -= self.speed
@@ -74,7 +76,7 @@ class Player:
         if move_keys[3]:
             self.rect.x += self.speed
             moved = True
-        # Animate only when moving
+        # Animate walk when moving and not attacking
         if moved and self.state == 'walk':
             self.animation_counter += self.animation_speed
             if self.animation_counter >= 1:
@@ -83,13 +85,12 @@ class Player:
                 self.image = self.walk_sprites[self.current_sprite]
 
     def attack(self, enemies=None):
-        if self.state == 'walk' and self.attack_cooldown == 0:
+        if self.attack_cooldown == 0:  # Allow attack anytime if not on cooldown
             print("ATTACKING!")  # Debug
             self.state = 'attack'
-            self.current_sprite = 0
             self.attack_frame = 0
             self.attack_counter = 0
-            self.attack_effect_timer = 20  # Show attack effect longer
+            self.attack_effect_timer = 15  # Show attack effect
             # Damage enemies in range
             if enemies is not None:
                 enemies_hit = 0
@@ -119,7 +120,7 @@ class Player:
                     self.state = 'walk'
                     self.current_sprite = 0
                     self.image = self.walk_sprites[0]
-                    self.attack_cooldown = 8  # frames
+                    self.attack_cooldown = 5  # frames - shorter cooldown
         elif self.state == 'death':
             self.animation_counter += 1.0  # Much faster death animation
             if self.animation_counter >= 1:
@@ -142,19 +143,15 @@ class Player:
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
-        # Show attack range and effect
-        if self.state == 'attack' or self.attack_effect_timer > 0:
-            # Draw attack range circle
-            pygame.draw.circle(surface, (255, 255, 0), self.rect.center, self.attack_range, 2)
-            # Add a slash effect
-            if self.attack_effect_timer > 0:
-                # Draw multiple slash lines for better effect
-                pygame.draw.line(surface, (255, 255, 255),
-                               (self.rect.centerx - 60, self.rect.centery - 60),
-                               (self.rect.centerx + 60, self.rect.centery + 60), 6)
-                pygame.draw.line(surface, (255, 255, 0),
-                               (self.rect.centerx - 40, self.rect.centery - 40),
-                               (self.rect.centerx + 40, self.rect.centery + 40), 4)
+        # Only show slash effect, no yellow circle
+        if self.attack_effect_timer > 0:
+            # Draw multiple slash lines for better effect
+            pygame.draw.line(surface, (255, 255, 255),
+                           (self.rect.centerx - 60, self.rect.centery - 60),
+                           (self.rect.centerx + 60, self.rect.centery + 60), 6)
+            pygame.draw.line(surface, (255, 255, 0),
+                           (self.rect.centerx - 40, self.rect.centery - 40),
+                           (self.rect.centerx + 40, self.rect.centery + 40), 4)
 
     def is_dead(self):
         return self.health <= 0 and self.state != 'death'
