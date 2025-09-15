@@ -74,3 +74,9 @@ python3 main.py
 * And actual lore to it
 
 ---
+
+**Made by Ahad**
+[GitHub](https://github.com/ah4ddd)
+
+**feel free to contribute**
+[Hate-Core](https://github.com/ah4ddd/Hate-Core)
