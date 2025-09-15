@@ -19,7 +19,7 @@
 ## Screenshot
 
 <p align="center">
-  <img src="Hate-Core.png" alt="HAL 9000 Assistant Banner" width="100%" />
+  <img src="Hate-Core.png" alt="Hate-Core SS" width="100%" />
 </p>
 
 ---
