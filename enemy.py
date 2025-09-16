@@ -7,7 +7,7 @@ import math
 class Enemy:
     def __init__(self, screen_width, screen_height, player_pos):
         # Load dragon sprite as a static image
-        dragon_path = "assets/images/enemy/fly/Biomech Dragon Splice.png"
+        dragon_path = "assets/images/enemy/fly/Biomech_Dragon_Splice.png"
         if os.path.exists(dragon_path):
             image = pygame.image.load(dragon_path).convert_alpha()
             self.image = pygame.transform.smoothscale(image, (256, 256))
@@ -40,7 +40,7 @@ class Enemy:
         bar_height = 8
         bar_x = self.rect.centerx - bar_width // 2
         bar_y = self.rect.top - 20
-        
+
         # Background (dark red)
         pygame.draw.rect(surface, (100, 0, 0), (bar_x, bar_y, bar_width, bar_height))
         # Health (bright red)
