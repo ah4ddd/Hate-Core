@@ -5,6 +5,7 @@ from enemy import Enemy
 from ui import draw_ui, draw_game_over, draw_victory, draw_touch_controls, draw_pause_screen
 from controls import handle_input, handle_touch_movement
 from sounds import slash, hit, death, bgm
+from assets import Assets
 from game import reset_game
 import random
 import os
@@ -15,7 +16,7 @@ info = pygame.display.Info()
 SCREEN_WIDTH, SCREEN_HEIGHT = info.current_w, info.current_h
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.FULLSCREEN)
 # Load and scale the background image to fit the screen
-bg_image = pygame.image.load("assets/images/background.png").convert()
+bg_image = pygame.image.load(Assets.BACKGROUND).convert()
 bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("HATE-CORE by Ahad")  # Your title bar!
 clock = pygame.time.Clock()

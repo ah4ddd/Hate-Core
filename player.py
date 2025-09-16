@@ -1,35 +1,36 @@
 import pygame
 import config
+from assets import Assets
 import os
 
 class Player:
     def __init__(self, x, y):
         # Load walk animation
         self.walk_sprites = []
-        walk_dir = "assets/images/player/Walk"
+        walk_dir = Assets.PLAYER_WALK_DIR
         for fname in sorted(os.listdir(walk_dir)):
             if fname.endswith('.png') and not fname.endswith('.Zone.Identifier'):
-                sprite_path = os.path.join(walk_dir, fname)
+                sprite_path = os.path.join(str(walk_dir), fname)
                 sprite = pygame.image.load(sprite_path).convert_alpha()
                 # Ensure exact same size for all sprites
                 sprite = pygame.transform.smoothscale(sprite, (128, 128))
                 self.walk_sprites.append(sprite)
         # Load attack animation
         self.attack_sprites = []
-        attack_dir = "assets/images/player/Attack"
+        attack_dir = Assets.PLAYER_ATTACK_DIR
         for fname in sorted(os.listdir(attack_dir)):
             if fname.endswith('.png') and not fname.endswith('.Zone.Identifier'):
-                sprite_path = os.path.join(attack_dir, fname)
+                sprite_path = os.path.join(str(attack_dir), fname)
                 sprite = pygame.image.load(sprite_path).convert_alpha()
                 # Ensure exact same size for all sprites
                 sprite = pygame.transform.smoothscale(sprite, (128, 128))
                 self.attack_sprites.append(sprite)
         # Load death animation
         self.death_sprites = []
-        death_dir = "assets/images/player/Death"
+        death_dir = Assets.PLAYER_DEATH_DIR
         for fname in sorted(os.listdir(death_dir)):
             if fname.endswith('.png') and not fname.endswith('.Zone.Identifier'):
-                sprite_path = os.path.join(death_dir, fname)
+                sprite_path = os.path.join(str(death_dir), fname)
                 sprite = pygame.image.load(sprite_path).convert_alpha()
                 # Ensure exact same size for all sprites
                 sprite = pygame.transform.smoothscale(sprite, (128, 128))

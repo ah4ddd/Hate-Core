@@ -1,13 +1,14 @@
 import pygame
 import random
 import config
+from assets import Assets
 import os
 import math
 
 class Enemy:
     def __init__(self, screen_width, screen_height, player_pos):
         # Load dragon sprite as a static image
-        dragon_path = "assets/images/enemy/fly/Biomech_Dragon_Splice.png"
+        dragon_path = Assets.DRAGON
         if os.path.exists(dragon_path):
             image = pygame.image.load(dragon_path).convert_alpha()
             self.image = pygame.transform.smoothscale(image, (256, 256))
